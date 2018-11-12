@@ -39,7 +39,7 @@ def upload_file():
     if f and allowed_file(f.filename):
         filename = secure_filename(f.filename)
         if producer is not None:
-          producer.send(topic, json.dumps({"filename" : filename, "contents" : base64.b64encode(f.stream.read()).decode('ascii')}))
+          producer.send(topic, bytes(json.dumps({"filename" : filename, "contents" : base64.b64encode(f.stream.read()).decode('ascii')}), "ascii"))
         f.close()
         return "<!doctype html><title>got your file</title><p>received file %s</p>" %  filename
   return '''
